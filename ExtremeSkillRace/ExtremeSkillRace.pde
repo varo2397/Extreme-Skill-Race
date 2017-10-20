@@ -1,24 +1,65 @@
 import controlP5.*;
 
+import java.util.Iterator;
+import shiffman.box2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
+
 boolean inMenu;
+boolean inGame;
+boolean background;
+
+PImage space;
+PImage mountain;
+PImage ice;
+PImage selectecBackground;
+
+Box2DProcessing box2d;
 Menu menu;
 ControlP5 cp5;
+Terrain terrain;
 
 void setup()
 {
+  initBox2D();
+  loadImages();
+  initControls();
+  
   size(1280, 720);
   inMenu = true;
-  menu  = new Menu();
-  initControls();
+  inGame = false;
+  background = false;
+  menu  = new Menu();   
+  terrain = new Terrain();
 }
 
 void draw()
 {
-  background(0);
+  //drawing the background according to the user selection
+  if (!background)
+  {
+    background(0);
+  } else
+  {
+    image(selectecBackground, 0, 0);
+  }
+
+  //when the user is selecting everything
   if (inMenu)
   {
     menu.menuSelection();
   }
+
+  else if(inGame)
+  {
+    game();
+  }
+}
+
+void game()
+{
+  terrain.display();
 }
 
 
@@ -26,12 +67,12 @@ void initControls()
 {
   PFont font = createFont("arial", 40);
   cp5 = new ControlP5(this);
-  //width and height for name input
+  //x and y coordinates for name input
   float playerNameInputX = 500;
   float playerNameInputY = 330;
 
-  //width and height for background selection
-  float scene = 450;
+  //x and y coordinates for background selection
+  float scene = 250;
   float iceX = 100;
   float mountainX = 500;
   float spaceX = 920;
@@ -66,7 +107,7 @@ void initControls()
     .setFont(font);
 
   cp5.addButton("Next")
-    .setPosition(500, 550)
+    .setPosition(500, 375)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
 
@@ -74,12 +115,52 @@ void initControls()
   cp5.get("Ice").hide();
   cp5.get("Mountain").hide();
   cp5.get("Space").hide();
+  cp5.get("Next").hide();
 }
 
-public void controlEvent(ControlEvent theEvent) {
-}
-
-void Ice(int value)
+void initBox2D() 
 {
-  println("hola");
+  box2d = new Box2DProcessing(this);
+  box2d.createWorld();
+}
+
+void loadImages()
+{
+  space = loadImage("space.jpg");
+  mountain = loadImage("mountain.jpg");
+  ice = loadImage("ice.jpg");
+}
+
+//functions for buttons
+void Space()
+{
+  background = true;
+  selectecBackground = space;
+}
+
+void Mountain()
+{
+  background = true;
+  selectecBackground = mountain;
+}
+
+void Ice()
+{
+  background = true;
+  selectecBackground = ice;
+}
+
+void Next()
+{
+  if (selectecBackground != null)
+  {
+    inMenu = false;
+    inGame = true;
+    box2d.setGravity(0, -4);
+
+    cp5.get("Ice").hide();
+    cp5.get("Mountain").hide();
+    cp5.get("Space").hide();
+    cp5.get("Next").hide();
+  } 
 }

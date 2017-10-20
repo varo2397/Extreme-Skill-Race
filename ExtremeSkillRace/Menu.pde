@@ -75,15 +75,14 @@ class Menu
       inputNameMenu = false;
       selectScene = true;
       cp5.get("playerName").hide();
-      print(playerName);
     }
   }
   
   void displaySelectSceneMenu()
   {
     String inputInstruction = "Select background";
-    float inputInstructionX = width / 2;
-    float inputInstructionY = height * 0.4;
+    float inputInstructionX = 640;
+    float inputInstructionY = 188;
     textSize(60);
     textAlign(CENTER);
     text(inputInstruction,inputInstructionX, inputInstructionY);
@@ -91,5 +90,6 @@ class Menu
     cp5.get("Ice").show();
     cp5.get("Space").show();
     cp5.get("Mountain").show();
+    cp5.get("Next").show();
   }
 }
