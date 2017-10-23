@@ -9,6 +9,9 @@ import org.jbox2d.dynamics.*;
 boolean inMenu;
 boolean inGame;
 boolean background;
+boolean startTime;
+
+int initialTime;
 
 PImage space;
 PImage mountain;
@@ -25,11 +28,12 @@ void setup()
   initBox2D();
   loadImages();
   initControls();
-  
+
   size(1280, 720);
   inMenu = true;
   inGame = false;
   background = false;
+  startTime = true;
   menu  = new Menu();   
   terrain = new Terrain();
 }
@@ -49,9 +53,7 @@ void draw()
   if (inMenu)
   {
     menu.menuSelection();
-  }
-
-  else if(inGame)
+  } else if (inGame)
   {
     game();
   }
@@ -60,6 +62,41 @@ void draw()
 void game()
 {
   terrain.display();
+  showTime();
+  showPlayerName();
+}
+
+void showPlayerName()
+{
+  textSize(50);
+  textAlign(CENTER);
+  text(menu.playerName, width / 2, 50);
+}
+
+void showTime()
+{
+  if (startTime)
+  {
+    initialTime = millis();
+    startTime = false;
+  } 
+  else
+  {
+    int elapsed = millis() - initialTime; 
+    fill(255);
+    textSize(50);
+    textAlign(CENTER);
+    text(elapsed / 1000, width / 2, 120);
+  }
+}
+
+void keyPressed()
+{
+  if(key == 'r')
+  {
+    terrain.index++;
+    println("hola");
+  }
 }
 
 
@@ -136,6 +173,7 @@ void Space()
 {
   background = true;
   selectecBackground = space;
+  box2d.setGravity(0, -4);
 }
 
 void Mountain()
@@ -148,6 +186,7 @@ void Ice()
 {
   background = true;
   selectecBackground = ice;
+  //change the friction not the gravity
 }
 
 void Next()
@@ -156,11 +195,10 @@ void Next()
   {
     inMenu = false;
     inGame = true;
-    box2d.setGravity(0, -4);
 
     cp5.get("Ice").hide();
     cp5.get("Mountain").hide();
     cp5.get("Space").hide();
     cp5.get("Next").hide();
-  } 
+  }
 }

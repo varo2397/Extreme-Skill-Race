@@ -1,4 +1,4 @@
-class Menu
+class Menu 
 {
   String playerName;
   String gameName = "Extreme Skill Race";
