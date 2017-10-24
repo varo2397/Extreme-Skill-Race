@@ -6,17 +6,31 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 
+import shiffman.box2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.collision.shapes.Shape;
+import org.jbox2d.dynamics.contacts.*;
+import java.util.Random;
+
+
 boolean inMenu;
 boolean inGame;
 boolean background;
 boolean startTime;
 
 int initialTime;
+int delayedTime;
+
+float friction;
 
 PImage space;
 PImage mountain;
 PImage ice;
 PImage selectecBackground;
+
+PImage speedPowerUp;
+PImage gasolinePowerUp;
+PImage timePowerUp;
 
 Box2DProcessing box2d;
 Menu menu;
@@ -34,6 +48,7 @@ void setup()
   inGame = false;
   background = false;
   startTime = true;
+  friction = 0.1;
   menu  = new Menu();   
   terrain = new Terrain();
 }
@@ -82,7 +97,7 @@ void showTime()
   } 
   else
   {
-    int elapsed = millis() - initialTime; 
+    int elapsed = millis() - initialTime - delayedTime;; 
     fill(255);
     textSize(50);
     textAlign(CENTER);
@@ -90,15 +105,28 @@ void showTime()
   }
 }
 
-void keyPressed()
+void beginContact(Contact cp)
 {
-  if(key == 'r')
-  {
-    terrain.index++;
-    println("hola");
-  }
+  // Get both shapes
+  Fixture f1 = cp.getFixtureA();
+  Fixture f2 = cp.getFixtureB();
+  // Get both bodies
+  Body b1 = f1.getBody();
+  Body b2 = f2.getBody();
+
+  // Get our objects that reference these bodies
+  Object o1 = b1.getUserData();
+  Object o2 = b2.getUserData();
+
+  //if (o1.getClass() == Player.class && o2.getClass() == SpeedPowerUp.class) {
+  //  Player p = (Player)o1;
+  //  SpeedPowerUp s = (SpeedPowerUp) o2;
+  //  s.applyPowerUp(p);
+  //}
 }
 
+void endContact(Contact cp) {
+}
 
 void initControls()
 {
@@ -166,6 +194,10 @@ void loadImages()
   space = loadImage("space.jpg");
   mountain = loadImage("mountain.jpg");
   ice = loadImage("ice.jpg");
+  
+  speedPowerUp = loadImage("speed.png");
+  timePowerUp = loadImage("time.png");
+  //add the gasoline power up image
 }
 
 //functions for buttons
@@ -186,7 +218,7 @@ void Ice()
 {
   background = true;
   selectecBackground = ice;
-  //change the friction not the gravity
+  friction = 2;
 }
 
 void Next()
