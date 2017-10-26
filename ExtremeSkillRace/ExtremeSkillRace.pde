@@ -14,8 +14,6 @@ import java.util.Random;
 
 import org.jbox2d.dynamics.joints.*;
 
-
-
 boolean inMenu;
 boolean inGame;
 boolean background;
@@ -330,3 +328,9 @@ void Play()
     cp5.get("Play").hide();
   }
 }
+
+void keyPressed(){
+  if(key=='w'){
+    terrain.createMorePoints();
+  }
+} 

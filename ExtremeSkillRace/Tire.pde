@@ -34,7 +34,7 @@ class Tire {
     FixtureDef fd = new FixtureDef();
     fd.shape = cs;
     fd.density = 1;
-    fd.friction = 0.3;
+    fd.friction = 10;
     fd.restitution = 0.1;
     
     body.createFixture(fd);
