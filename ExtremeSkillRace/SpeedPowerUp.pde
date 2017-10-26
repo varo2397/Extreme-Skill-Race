@@ -6,8 +6,8 @@ class SpeedPowerUp extends PowerUp
     body.setUserData(this);
   }
   
-  void applyPowerUp(Player player)
-  {
-    Vec2 force = new Vec2(10,0);
-  }
+  //void applyPowerUp(Player player)
+  //{
+  //  Vec2 force = new Vec2(10,0);
+  //}
 }

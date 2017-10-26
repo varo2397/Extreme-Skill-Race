@@ -12,6 +12,9 @@ import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.dynamics.contacts.*;
 import java.util.Random;
 
+import org.jbox2d.dynamics.joints.*;
+
+
 
 boolean inMenu;
 boolean inGame;
@@ -32,18 +35,33 @@ PImage speedPowerUp;
 PImage gasolinePowerUp;
 PImage timePowerUp;
 
+PImage car1Whole;
+PImage car1Body;
+
+PImage car2Whole;
+PImage car2Body;
+
+PImage car3Whole;
+PImage car3Body;
+
+PImage tire;
+
+PImage selectedCar;
+
 Box2DProcessing box2d;
 Menu menu;
 ControlP5 cp5;
 Terrain terrain;
+Player player;
 
 void setup()
 {
+  background(0);
+  
   initBox2D();
   loadImages();
   initControls();
 
-  size(1280, 720);
   inMenu = true;
   inGame = false;
   background = false;
@@ -51,6 +69,8 @@ void setup()
   friction = 0.1;
   menu  = new Menu();   
   terrain = new Terrain();
+  
+  size(1280, 720);
 }
 
 void draw()
@@ -76,9 +96,11 @@ void draw()
 
 void game()
 {
+  box2d.step();
   terrain.display();
   showTime();
   showPlayerName();
+  player.display();
 }
 
 void showPlayerName()
@@ -141,6 +163,9 @@ void initControls()
   float iceX = 100;
   float mountainX = 500;
   float spaceX = 920;
+  
+  //y coordinates for car selection
+  float vehicle = 450;
 
   //width and height for all inputs
   int inputWidth = 300;
@@ -153,7 +178,6 @@ void initControls()
     .setFont(font)
     .setAutoClear(false)
     .setFocus(false)
-    .setText("")
     .setAutoClear(false);
 
   cp5.addButton("Ice")
@@ -175,12 +199,37 @@ void initControls()
     .setPosition(500, 375)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
+    
+  cp5.addButton("Play")
+    .setPosition(500, 550)
+    .setSize(inputWidth, inputHeight)
+    .setFont(font);
+    
+  cp5.addButton("Regular")
+    .setPosition(iceX, vehicle)
+    .setSize(inputWidth, inputHeight)
+    .setFont(font);
+  
+  cp5.addButton("HotRod")
+    .setPosition(mountainX, vehicle)
+    .setSize(inputWidth, inputHeight)
+    .setFont(font);
+  
+  cp5.addButton("Classic")
+    .setPosition(spaceX, vehicle)
+    .setSize(inputWidth, inputHeight)
+    .setFont(font);
+  
 
   cp5.get("playerName").hide();
   cp5.get("Ice").hide();
   cp5.get("Mountain").hide();
   cp5.get("Space").hide();
   cp5.get("Next").hide();
+  cp5.get("Play").hide();
+  cp5.get("Regular").hide();
+  cp5.get("HotRod").hide();
+  cp5.get("Classic").hide();
 }
 
 void initBox2D() 
@@ -198,6 +247,14 @@ void loadImages()
   speedPowerUp = loadImage("speed.png");
   timePowerUp = loadImage("time.png");
   //add the gasoline power up image
+  
+  car1Whole = loadImage("carro1.png");
+  car2Whole = loadImage("carro2.png");
+  car3Whole = loadImage("carro3.png");
+  
+  car1Body = loadImage("carroceria1.png");
+  
+  tire = loadImage("rueda.png");
 }
 
 //functions for buttons
@@ -225,12 +282,54 @@ void Next()
 {
   if (selectecBackground != null)
   {
-    inMenu = false;
-    inGame = true;
+    menu.selectCar = true;
+    menu.selectScene = false;
 
     cp5.get("Ice").hide();
     cp5.get("Mountain").hide();
     cp5.get("Space").hide();
     cp5.get("Next").hide();
+  }
+}
+
+void Regular()
+{
+  selectedCar = car1Whole;
+}
+
+void HotRod()
+{
+  selectedCar = car2Whole;
+}
+
+void Classic()
+{
+  selectedCar = car3Whole;
+}
+
+void Play()
+{
+  if(selectedCar != null)
+  {
+    inGame = true;
+    inMenu = false;
+    
+    Car car;
+    if(selectedCar == car1Whole)
+    {
+      car = new Regular(100,100,car1Body,tire);
+      println("hola");
+    }
+    else
+    {
+      car = new Car();
+    }
+    
+    player = new Player(friction, car);
+    
+    cp5.get("Regular").hide();
+    cp5.get("HotRod").hide();
+    cp5.get("Classic").hide();
+    cp5.get("Play").hide();
   }
 }

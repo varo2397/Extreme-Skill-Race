@@ -5,12 +5,14 @@ class Menu
   boolean startMenu;
   boolean inputNameMenu;
   boolean selectScene;
+  boolean selectCar;
   
   Menu()
   {
     startMenu = true;
     inputNameMenu = false;
     selectScene = false;
+    selectCar = false;
   }
   
   void menuSelection()
@@ -26,7 +28,12 @@ class Menu
     else if(selectScene)
     {
       displaySelectSceneMenu();
+    }    
+    else if(selectCar)
+    {
+      displaySelectCarMenu();
     }
+    
   }
   
   void displayStartMenu()
@@ -91,5 +98,25 @@ class Menu
     cp5.get("Space").show();
     cp5.get("Mountain").show();
     cp5.get("Next").show();
+  }
+  
+  void displaySelectCarMenu()
+  {
+    String inputInstruction = "Select Car";
+    float inputInstructionX = 640;
+    float inputInstructionY = 188;
+    textSize(60);
+    textAlign(CENTER);
+    text(inputInstruction,inputInstructionX, inputInstructionY);
+    
+    if(selectedCar != null)
+    {
+      image(selectedCar,525,225,250,200);
+    }
+    
+    cp5.get("Play").show();
+    cp5.get("Classic").show();
+    cp5.get("HotRod").show();
+    cp5.get("Regular").show();
   }
 }
