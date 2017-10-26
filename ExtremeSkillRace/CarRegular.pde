@@ -38,8 +38,30 @@ class Regular extends Car
   }
   
   void display() {
+<<<<<<< HEAD
+    Vec2 pos = box2d.getBodyPixelCoord(body);
+
+    pushMatrix();
+    translate(pos.x, pos.y);  
+    
+    noStroke();
+    fill(255);
+    rect(-15,0,w1,h1);
+    fill(#DE1616);
+    rect(0, 10, w , h);
+    fill(#1628DE);
+    ellipse(-w / 2 - r + 50, 20, r * 2, r * 2);
+    ellipse(w / 2 - r - 3 , 20 , r * 2, r * 2);
+    
+    //image(carBody,-54,-28,109,53);
+    //image(tire,-w / 2 - r + 28 , 6, r * 2, r * 2);
+    //image(tire,w / 2 - r + -21 , 6, r * 2, r * 2);
+    
+    popMatrix();
+=======
     bodyCar.display();
     tire1.display();
     tire2.display();
+>>>>>>> 4042d712867032752e88dcbc618edd782d3d89f3
   }
 }
