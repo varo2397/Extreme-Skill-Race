@@ -26,6 +26,16 @@ class Player
       Regular c = (Regular)car;
       c.display();
     }
+    else if(car instanceof HotRod)
+    {
+      HotRod c = (HotRod)car;
+      c.display();
+    }
+    else if(car instanceof Classic)
+    {
+      Classic c = (Classic)car;
+      c.display();
+    }
   }
 
   

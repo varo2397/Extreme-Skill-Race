@@ -57,7 +57,7 @@ Player player;
 void setup()
 {
   background(0);
-  
+
   initBox2D();
   loadImages();
   initControls();
@@ -69,7 +69,7 @@ void setup()
   friction = 0.1;
   menu  = new Menu();   
   terrain = new Terrain();
-  
+
   size(1280, 720);
 }
 
@@ -116,10 +116,10 @@ void showTime()
   {
     initialTime = millis();
     startTime = false;
-  } 
-  else
+  } else
   {
-    int elapsed = millis() - initialTime - delayedTime;; 
+    int elapsed = millis() - initialTime - delayedTime;
+    ; 
     fill(255);
     textSize(50);
     textAlign(CENTER);
@@ -163,7 +163,7 @@ void initControls()
   float iceX = 100;
   float mountainX = 500;
   float spaceX = 920;
-  
+
   //y coordinates for car selection
   float vehicle = 450;
 
@@ -199,27 +199,27 @@ void initControls()
     .setPosition(500, 375)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
-    
+
   cp5.addButton("Play")
     .setPosition(500, 550)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
-    
+
   cp5.addButton("Regular")
     .setPosition(iceX, vehicle)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
-  
+
   cp5.addButton("HotRod")
     .setPosition(mountainX, vehicle)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
-  
+
   cp5.addButton("Classic")
     .setPosition(spaceX, vehicle)
     .setSize(inputWidth, inputHeight)
     .setFont(font);
-  
+
 
   cp5.get("playerName").hide();
   cp5.get("Ice").hide();
@@ -243,17 +243,19 @@ void loadImages()
   space = loadImage("space.jpg");
   mountain = loadImage("mountain.jpg");
   ice = loadImage("ice.jpg");
-  
+
   speedPowerUp = loadImage("speed.png");
   timePowerUp = loadImage("time.png");
   //add the gasoline power up image
-  
+
   car1Whole = loadImage("carro1.png");
   car2Whole = loadImage("carro2.png");
   car3Whole = loadImage("carro3.png");
-  
+
   car1Body = loadImage("carroceria1.png");
-  
+  car2Body = loadImage("carroceria2.png");
+  car3Body = loadImage("carroceria3.png");
+
   tire = loadImage("rueda.png");
 }
 
@@ -309,24 +311,19 @@ void Classic()
 
 void Play()
 {
-  if(selectedCar != null)
+  if (selectedCar != null)
   {
     inGame = true;
     inMenu = false;
-    
+
     Car car;
-    if(selectedCar == car1Whole)
-    {
-      car = new Regular(100,100,car1Body,tire);
-      println("hola");
-    }
-    else
-    {
-      car = new Car();
-    }
-    
+    if (selectedCar == car1Whole) { car = new Regular(100, 100, car1Body, tire); } 
+    else if (selectedCar == car2Whole) { car = new HotRod(100, 100, car2Body, tire); } 
+    else if (selectedCar == car3Whole) { car = new Classic(100, 100, car3Body, tire); } 
+    else { car = new Car(); }
+
     player = new Player(friction, car);
-    
+
     cp5.get("Regular").hide();
     cp5.get("HotRod").hide();
     cp5.get("Classic").hide();
