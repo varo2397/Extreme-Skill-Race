@@ -5,6 +5,7 @@ import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.joints.Joint;
 
 import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
@@ -331,6 +332,7 @@ void Play()
 
 void keyPressed(){
   if(key=='w'){
+    //car.
     terrain.createMorePoints();
   }
 } 

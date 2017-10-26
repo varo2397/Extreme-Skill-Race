@@ -21,8 +21,8 @@ class Terrain {
    
     offset2=offset;
     float lastYPos = points.get(points.size() - 1).y;
-    points.add(new Vec2(width, lastYPos + 200));
-    points.add(new Vec2(0, lastYPos + 200));
+    points.add(new Vec2(width, lastYPos + 500));
+    points.add(new Vec2(0, lastYPos + 500));
     
     makeBody();
   }
@@ -69,8 +69,8 @@ class Terrain {
      points.add(new Vec2(posX, y));
      
      float lastYPos = points.get(points.size() - 1).y;
-     points.add(new Vec2(width, lastYPos + 200));
-     points.add(new Vec2(0, lastYPos + 200));
+     points.add(new Vec2(width, lastYPos + 500));
+     points.add(new Vec2(0, lastYPos + 500));
      
      // println(posX, y);
      
