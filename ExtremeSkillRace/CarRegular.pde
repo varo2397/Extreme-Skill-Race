@@ -86,9 +86,18 @@ class Regular extends Car
     pushMatrix();
     translate(pos.x, pos.y);  
     
-    image(carBody,-54,-28,109,53);
-    image(tire,-w / 2 - r + 28 , 6, r * 2, r * 2);
-    image(tire,w / 2 - r + -21 , 6, r * 2, r * 2);
+    noStroke();
+    fill(255);
+    rect(-15,0,w1,h1);
+    fill(#DE1616);
+    rect(0, 10, w , h);
+    fill(#1628DE);
+    ellipse(-w / 2 - r + 50, 20, r * 2, r * 2);
+    ellipse(w / 2 - r - 3 , 20 , r * 2, r * 2);
+    
+    //image(carBody,-54,-28,109,53);
+    //image(tire,-w / 2 - r + 28 , 6, r * 2, r * 2);
+    //image(tire,w / 2 - r + -21 , 6, r * 2, r * 2);
     
     popMatrix();
   }
