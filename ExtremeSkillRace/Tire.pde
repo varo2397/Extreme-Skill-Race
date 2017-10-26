@@ -10,7 +10,6 @@ class Tire {
     makeBody(x,y,r);
   }
 
-  // 
   void display() {
     Vec2 pos = box2d.getBodyPixelCoord(body);
     float a = body.getAngle();
