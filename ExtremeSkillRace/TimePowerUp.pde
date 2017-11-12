@@ -5,6 +5,12 @@ class TimePowerUp extends PowerUp
     super(image,posX,posY); 
     body.setUserData(this);
   }
+ 
+  
+  void display()
+  {
+    
+  }
   
   void applyPowerUp()
   {

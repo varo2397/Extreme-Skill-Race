@@ -12,7 +12,7 @@ class PowerUp
     active = true;
     side = 20;
     makeBody(posX, posY);
-    body.setUserData(this);
+    //body.setUserData(this);
   }
   
   void makeBody(float posX, float posY)
@@ -21,6 +21,7 @@ class PowerUp
     bd.setType(BodyType.KINEMATIC);
     bd.setPosition(box2d.coordPixelsToWorld(posX,posY));
     //bd.setAngle(random(PI));
+    bd.fixedRotation = true;
     body = box2d.createBody(bd);
     
     //square for the shape 
@@ -35,6 +36,7 @@ class PowerUp
     rectangleFixture.setFriction(0.1);
 
     body.createFixture(rectangleFixture);
+    body.setLinearVelocity(new Vec2(-10,0));
   }
   
   void display()
@@ -50,5 +52,6 @@ class PowerUp
     popMatrix();
   }
   
+  void applyPowerUp(){}  
   
 }

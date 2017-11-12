@@ -15,6 +15,15 @@ import java.util.Random;
 
 import org.jbox2d.dynamics.joints.*;
 
+import shiffman.box2d.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.joints.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.collision.shapes.Shape;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.*;
+
 boolean inMenu;
 boolean inGame;
 boolean background;
@@ -53,6 +62,8 @@ ControlP5 cp5;
 Terrain terrain;
 Player player;
 
+PowerUp p;
+
 void setup()
 {
   background(0);
@@ -68,6 +79,8 @@ void setup()
   friction = 0.1;
   menu  = new Menu();   
   terrain = new Terrain();
+  
+  box2d.listenForCollisions();
 
   size(1280, 720);
 }
@@ -89,17 +102,25 @@ void draw()
     menu.menuSelection();
   } else if (inGame)
   {
+    box2d.step();
+    if (mousePressed)
+    {
+      p = new PowerUp(speedPowerUp, mouseX, mouseY);
+    }
     game();
   }
 }
 
 void game()
 {
-  box2d.step();
   terrain.display();
   showTime();
   showPlayerName();
   player.display();
+  if (p != null)
+  {
+    p.display();
+  }
 }
 
 void showPlayerName()
@@ -124,29 +145,6 @@ void showTime()
     textAlign(CENTER);
     text(elapsed / 1000, width / 2, 120);
   }
-}
-
-void beginContact(Contact cp)
-{
-  // Get both shapes
-  Fixture f1 = cp.getFixtureA();
-  Fixture f2 = cp.getFixtureB();
-  // Get both bodies
-  Body b1 = f1.getBody();
-  Body b2 = f2.getBody();
-
-  // Get our objects that reference these bodies
-  Object o1 = b1.getUserData();
-  Object o2 = b2.getUserData();
-
-  //if (o1.getClass() == Player.class && o2.getClass() == SpeedPowerUp.class) {
-  //  Player p = (Player)o1;
-  //  SpeedPowerUp s = (SpeedPowerUp) o2;
-  //  s.applyPowerUp(p);
-  //}
-}
-
-void endContact(Contact cp) {
 }
 
 void initControls()
@@ -235,6 +233,7 @@ void initBox2D()
 {
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
+  //box2d.listenForCollisions();
 }
 
 void loadImages()
@@ -316,10 +315,15 @@ void Play()
     inMenu = false;
 
     Car car;
-    if (selectedCar == car1Whole) { car = new Regular(100, 100, car1Body, tire); } 
-    else if (selectedCar == car2Whole) { car = new HotRod(100, 100, car2Body, tire); } 
-    else if (selectedCar == car3Whole) { car = new Classic(100, 100, car3Body, tire); } 
-    else { car = new Car(); }
+    if (selectedCar == car1Whole) { 
+      car = new Regular(100, 100, car1Body, tire);
+    } else if (selectedCar == car2Whole) { 
+      car = new HotRod(100, 100, car2Body, tire);
+    } else if (selectedCar == car3Whole) { 
+      car = new Classic(100, 100, car3Body, tire);
+    } else { 
+      car = new Car();
+    }
 
     player = new Player(friction, car);
 
@@ -330,9 +334,38 @@ void Play()
   }
 }
 
-void keyPressed(){
-  if(key=='w'){
+void keyPressed() {
+  if (key=='w') {
     //car.
     terrain.createMorePoints();
   }
-} 
+}
+
+void beginContact(Contact cp)
+{
+  // Get both shapes
+  Fixture f1 = cp.getFixtureA();
+  Fixture f2 = cp.getFixtureB();
+  // Get both bodies
+  Body b1 = f1.getBody();
+  Body b2 = f2.getBody();
+
+  // Get our objects that reference these bodies
+  Object o1 = b1.getUserData();
+  Object o2 = b2.getUserData();
+
+  if (o1.getClass() == Car.class && o2.getClass() == SpeedPowerUp.class) {
+    //Player p = (Player)o1;
+    //SpeedPowerUp s = (SpeedPowerUp) o2;
+    //s.applyPowerUp(p);
+    println("hola");
+  } else if (o1.getClass() == PowerUp.class && o2.getClass() == SpeedPowerUp.class) {
+    //Player p = (Player)o1;
+    //SpeedPowerUp s = (SpeedPowerUp) o2;
+    //s.applyPowerUp(p);
+    println("hola");
+  }
+}
+
+void endContact(Contact cp) {
+}
